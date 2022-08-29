@@ -5,16 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <title>RollDice.com</title>
     <link href="styles.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <script></script>
 
     <div id="rolador">
+
 
         <h1 class="title">
             Roll Dice
@@ -47,7 +46,6 @@
                         <option value=10> D10
                         <option value=12> D12
                         <option selected value=20> D20
-                        <option value=100> 100%
                     </select>
                 </div>
 
@@ -67,10 +65,33 @@
                 <div id="resultBox" class="form-control"></div>
 
                 <div class="input-group-btn">
-                    <button id="button" class="btn btn-default">
-                        Rolar
+                    <button id="button" class="btn btn-default" onclick="rolld4()">
+                        RolarD4
                         <i class="fa fa-refresh fa-2x"></i>
                     </button>
+                    <button id="button" class="btn btn-default" onclick="rolld6()">
+                        RolarD6
+                        <i class="fa fa-refresh fa-2x"></i>
+                    </button>
+                     <button id="button" class="btn btn-default" onclick="rolld8()">
+                        RolarD8
+                        <i class="fa fa-refresh fa-2x"></i>
+                    </button>                    
+                </div>
+                <div>
+                    <button id="button" class="btn btn-default" onclick="rolld10()">
+                        RolarD10
+                        <i class="fa fa-refresh fa-2x"></i>
+                    </button>
+                    <button id="button" class="btn btn-default" onclick="rolld12()">
+                        RolarD12
+                        <i class="fa fa-refresh fa-2x"></i>
+                    </button>
+                    <button id="button" class="btn btn-default" onclick="rolld20()">
+                        RolarD20
+                        <i class="fa fa-refresh fa-2x"></i>
+                    </button>
+
                 </div>
 
             </div>
@@ -82,11 +103,29 @@
 
         </div>
 
-        <a href="https://codepen.io/VChastinet/" target="_blank" title="Code Pen">
-            <h5>By Victor Chastinet</h5>
-        </a>
 
     </div>
+    <script href="./roller.js"></script>
+    <script>
+        function rolld20(){
+            alert(Math.floor(Math.random() * 20) + 1)  
+        }
+        function rolld12(){
+            alert(Math.floor(Math.random() * 12) + 1)  
+        }
+        function rolld10(){
+            alert(Math.floor(Math.random() * 10) + 1)  
+        }
+        function rolld8(){
+            alert(Math.floor(Math.random() * 8) + 1)  
+        }
+        function rolld6(){
+            alert(Math.floor(Math.random() * 6) + 1)  
+        }
+        function rolld4(){
+            alert(Math.floor(Math.random() * 4) + 1)  
+        }
+    </script>
 </body>
 
 </html>
