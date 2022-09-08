@@ -1,87 +1,97 @@
-function singleRoll(dice, bonus) {
-    let result = Math.floor(Math.random() * dice) + 1;
-    addBonus(bonus, result);
-    totalResult(bonus, result);
-    return result;
-}
+const music = new Audio('taverna_music.mp4');
 
-function multiRoll(dice, n, bonus) {
-    var arr = [];
-    for (var i = 0; i < n; i++) {
-        arr.push(singleRoll(dice));
-    }
-    let result = arr;
-    addBonus(bonus, result.join("⦁"));
-    let sumResult = result.reduce((acc, curr) => acc + curr);
-    totalResult(bonus, sumResult);
-    return result;
-}
-
-function advRoll(bonus, advantage, disadvantage) {
-    let result = multiRoll(20, 2, bonus);
-
-    if (advantage) {
-        result = Math.max(result[0], result[1]);
-    } else if (disadvantage) {
-        result = Math.min(result[0], result[1]);
-    }
-
-    totalResult(bonus, result);
-}
-
-function addBonus(bonus, result) {
-    if (bonus < 1) {
-        $("#resultBox").html(result);
-    } else {
-        $("#resultBox").html(`${result} (+${bonus})`);
-    }
-}
-
-function totalResult(bonus, result) {
-    let total = result + bonus;
-    setTimeout(() => $("#totalBox").html(total), 200);
-}
-
+music.play();
 function roller() {
-    var n = Number($("#quant").val());
-    var dice = Number($("#faces").val());
-    var bonus = Number($("#bonus").val());
-    var adv = $("#advantage:checked").val();
-    var disadv = $("#disadvantage:checked").val();
+    music.pause();
+    const music1 = new Audio('diceroll.mp4');
 
-    //jogada com vantagem/disvantagem
-    if (adv || disadv) {
-        advRoll(bonus, adv, disadv);
-        //jogando apenas 1 dado
-    } else if (n < 2) {
-        singleRoll(dice, bonus);
-        //jogando 2 ou mais dados
+    music1.play();
+    music.play()
+    const dice = document.getElementById('faces').value
+    const numberDices = document.getElementById('quant').value
+    const modoRoll = document.querySelector(
+        'input[name=modoroll]:checked'
+    ).value
+    const pericia = document.getElementById('bonus').value
+    document.getElementById('resultBox').innerHTML = ''
+    document.getElementsByClassName('img')[0].innerHTML = ``
+    if (numberDices >= 1) {
+        console.log(dice, numberDices, modoRoll)
+        let result = []
+        if (modoRoll === 'n') {
+            for (let i = 1; i <= numberDices; i++) {
+                if (i !== 1) {
+                    document.getElementById('resultBox').innerHTML += ', '
+                }
+                let r = Math.floor(Math.random() * dice) + 1
+
+                document.getElementsByClassName(
+                    'img'
+                )[0].innerHTML += `<img src="./dados/d${dice}${r}.jpg" alt="" style="width: ${300 / numberDices
+                }px; min-width: 100px">`
+                document.getElementById('resultBox').innerHTML += r
+                r += Number(pericia)
+                result.push(r)
+
+            }
+        }
+
+        if (modoRoll === 'v') {
+            for (let i = 1; i <= numberDices; i++) {
+                if (i !== 1) {
+                    document.getElementById('resultBox').innerHTML += ', '
+                }
+                let r1 = Math.floor(Math.random() * dice) + 1
+                let r2 = Math.floor(Math.random() * dice) + 1
+                document.getElementById('resultBox').innerHTML += r1 + ' - '
+                document.getElementById('resultBox').innerHTML += r2
+                if (r1 > r2) {
+                    result.push(r1 + Number(pericia))
+                    document.getElementsByClassName(
+                        'img'
+                    )[0].innerHTML += `<img src="./dados/d${dice}${r1}.jpg" alt="" style="width: ${300 / numberDices
+                    }px; min-width: 100px">`
+                } else {
+                    result.push(r2 + Number(pericia))
+                    document.getElementsByClassName(
+                        'img'
+                    )[0].innerHTML += `<img src="./dados/d${dice}${r2}.jpg" alt="" style="width: ${300 / numberDices
+                    }px; min-width: 100px">`
+                }
+            }
+        }
+        if (modoRoll === 'd') {
+            for (let i = 1; i <= numberDices; i++) {
+                if (i !== 1) {
+                    document.getElementById('resultBox').innerHTML += ', '
+                }
+                let r1 = Math.floor(Math.random() * dice) + 1
+                let r2 = Math.floor(Math.random() * dice) + 1
+                document.getElementById('resultBox').innerHTML += r1 + ' - '
+                document.getElementById('resultBox').innerHTML += r2
+                if (r1 < r2) {
+                    result.push(r1 + Number(pericia))
+                    document.getElementsByClassName(
+                        'img'
+                    )[0].innerHTML += `<img src="./dados/d${dice}${r1}.jpg" alt="" style="width: ${300 / numberDices
+                    }px; min-width: 100px">`
+                } else {
+                    result.push(r2 + Number(pericia))
+                    document.getElementsByClassName(
+                        'img'
+                    )[0].innerHTML += `<img src="./dados/d${dice}${r2}.jpg" alt="" style="width: ${300 / numberDices
+                    }px; min-width: 100px">`
+                }
+            }
+        }
+        let total = 0
+
+        for (let i = 0; i < result.length; i++) {
+            total += result[i]
+        }
+        console.log(result)
+        document.getElementById('totalBox').innerHTML = total
     } else {
-        multiRoll(dice, n, bonus);
+        alert('Você deve rolar no mínimo um dado!')
     }
 }
-
-$("#advantage").on("click", function () {
-    $(".quant").toggle("slow");
-    $(".faces").toggle("slow");
-    $("#disadvantage").toggle();
-});
-
-$("#disadvantage").on("click", function () {
-    $(".quant").toggle("slow");
-    $(".faces").toggle("slow");
-    $("#advantage").toggle();
-});
-
-$("#button").mouseover(function () {
-    $(".fa-refresh").addClass("fa-spin");
-});
-$("#button").mouseout(function () {
-    $(".fa-refresh").removeClass("fa-spin");
-});
-
-$("#button").on("click", function () {
-    roller();
-});
-
-
